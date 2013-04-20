@@ -5,7 +5,7 @@ linked-in-scrapper
 
 [Click here](http://htmlpreview.github.io/?https://github.com/palaniraja/linked-in-scrapper/blob/master/index.html) to see the demo. 
 
-Note: You need to be signed out of LinkedIn. 
+_**Note:** You need to be signed out of LinkedIn._
 
 ###Why?
 
