@@ -1,0 +1,179 @@
+<html lang="en"><style type="text/css"></style><head>
+    <meta charset="utf-8">
+    <title>Linked In</title>
+    <style type="text/css">
+
+    body{
+        font-family: "Georgia";
+    }
+
+    #container{
+    	width: 75%;
+    	margin: 0 auto;
+    	padding: 1em;
+        /*font-family: Arial,Helvetica;*/
+        line-height: 1.2;
+    }
+    .inputfields{
+    	width: 60%;
+        margin-top: 0.5em;
+    }
+    #iframeContainer{
+    	height: 400px;
+    	padding: 1em;
+    	/*border: 1px solid red;*/
+    }
+    #iframeContainer iframe{
+    	height: 100%;
+    	width: 100%;
+    	border: 0px;
+    	background-color: #999;
+
+    }
+    #parsedData{
+    	border: 1px solid #027FBA;
+        padding: 2.5em;
+    }
+
+    em{
+        color: blue;
+    }
+
+    li{
+        padding-top: 0.25em;
+    }
+    </style>
+ </head>
+  <body>
+    <div id="container">
+    	<h1>LinkedIn Scrapper</h1>
+        <p><strong>How to use:</strong>
+            </p><ol>
+                <li>Drag and drop the following 2 bookmarks to your bookmarks bar.
+                    <p>
+            <a href="javascript:(function(){var%20el=document.createElement(%22div%22),b=document.getElementsByTagName(%22body%22)[0],otherlib=!1,msg=%22%22;el.style.position=%22fixed%22,el.style.height=%2232px%22,el.style.width=%22220px%22,el.style.marginLeft=%22-110px%22,el.style.top=%220%22,el.style.left=%2250%25%22,el.style.padding=%225px%2010px%22,el.style.zIndex=1001,el.style.fontSize=%2212px%22,el.style.color=%22#222%22,el.style.backgroundColor=%22#f99%22;function%20showMsg(){var%20txt=document.createTextNode(msg);el.appendChild(txt),b.appendChild(el),window.setTimeout(function(){txt=null,typeof%20jQuery==%22undefined%22?b.removeChild(el):(jQuery(el).fadeOut(%22slow%22,function(){jQuery(this).remove()}),otherlib&&(window.$jq=jQuery.noConflict()))},2500)}if(typeof%20jQuery!=%22undefined%22)return%20msg=%22This%20page%20already%20using%20jQuery%20v%22+jQuery.fn.jquery,showMsg();typeof%20$==%22function%22&&(otherlib=!0);function%20getScript(url,success){var%20script=document.createElement(%22script%22);script.src=url;var%20head=document.getElementsByTagName(%22head%22)[0],done=!1;script.onload=script.onreadystatechange=function(){!done&&(!this.readyState||this.readyState==%22loaded%22||this.readyState==%22complete%22)&&(done=!0,success(),script.onload=script.onreadystatechange=null,head.removeChild(script))},head.appendChild(script)}getScript(%22http://code.jquery.com/jquery.min.js%22,function(){return%20typeof%20jQuery==%22undefined%22?msg=%22Sorry,%20but%20jQuery%20was%20not%20able%20to%20load%22:(msg=%22This%20page%20is%20now%20jQuerified%20with%20v%22+jQuery.fn.jquery,otherlib&&(msg+=%22%20and%20noConflict().%20Use%20$jq(),%20not%20$().%22)),showMsg()})})();">Step 1: jQuerify</a>
+        </p>
+        <p>
+        <a id="codeOut" href="javascript:(function(){var jout={};jout.profileImg=$('#profile-picture').find('img').attr('src');jout.fullName=$('.full-name').text();jout.currentPos=$('.masthead .title').text();jout.locality=$('#headline .locality').text();jout.jobhistory=[];jout.groups=[];$('#profile-experience .content .position').each(function(el){exp={};exp.title=$(this).find('h3 .title',el).text();exp.org=$(this).find('h4 strong',el).text();exp.dtstart=$(this).find('p.period abbr.dtstart',el).text();exp.dtend=$(this).find('p.period abbr.dtend',el).text()?$(this).find('p.period abbr.dtend',el).text():'present';jout.jobhistory.push(exp);});$('#pubgroups .groups li div.group-data ').each(function(index){grp={};grp.name=$(this).find('strong.org').text();grp.url=$(this).find('a').eq(0).attr('href');jout.groups.push(grp);});console.dir(jout);alert(JSON.stringify(jout));})();">Step 2: Get LinkedIn data</a>
+        </p>
+                </li>
+                <li>Paste a linkedin profile url below and click "<em>Load Profile</em>". This will open linkedin page in a new window</li>
+                <li>Click <em>Step 1</em> bookmark and <em>Step 2</em> bookmark in the same order. If everything goes well, you get a alert popup with required info as JSON.</li>
+                <li>Copy and paste the text in the text area below. Click "<em>Parse profile</em>" to parse the data.</li>
+            </ol>
+        <p></p>
+    	<div id="form">
+    		<input id="profileurl" class="inputfields" type="text" value="http://www.linkedin.com/pub/barak-obama/16/2a7/a42"> 
+    		<input id="loadProfile" type="button" value="Load Profile">
+            <p>Paste the copied JSON string below:<br>
+                <textarea id="jsonOut" rows="5" class="inputfields"></textarea>
+                <input id="parseProfile" type="button" value="Parse profile">
+                <!-- <input id="forChildWindow" type="button" value = "After Parsing" onclick="afterParsing('hi');" /> -->
+            </p>
+    	</div>
+    	<!-- <div id="iframeContainer">
+    		<iframe id="iframe" src=""></iframe>
+    	</div> -->
+
+    	<div id="parsedData">
+    		
+    	</div>
+    </div>
+    <script type="text/javascript">
+    getlinkedInJSON = function (){
+    var jout = {};
+    
+    jout.profileImg = $('#profile-picture').find('img').attr('src');
+    jout.fullName = $('.full-name').text();
+    jout.currentPos = $('.masthead .title').text();
+    jout.locality = $('#headline .locality').text();
+
+    jout.jobhistory = [];
+    jout.groups = [];
+
+    $('#profile-experience .content .position').each(function (el){
+        // console.log($(this).find('h3 .title', el).text() + ' @ ' + $(this).find('h4 a', el).text()  + ' between ' + $(this).find('p.period abbr.dtstart', el).text()+ ' and ' + $(this).find('p.period abbr.dtend', el).text());
+        exp = {};
+        exp.title = $(this).find('h3 .title', el).text();
+        exp.org = $(this).find('h4 a', el).text();
+        exp.dtstart = $(this).find('p.period abbr.dtstart', el).text();
+        exp.dtend = $(this).find('p.period abbr.dtend', el).text()?$(this).find('p.period abbr.dtend', el).text():'present';
+        jout.jobhistory.push(exp);
+    });
+
+    $('#pubgroups .groups li div.group-data ').each(function (index){
+        // console.log($(this).find('strong.org').text());
+        // console.log($(this).find('a.join').attr('href'));
+        grp = {};
+        grp.name = $(this).find('strong.org').text();
+        grp.url = $(this).find('a').eq(0).attr('href');
+        // console.dir(grp);
+        jout.groups.push(grp);
+    });
+
+    // console.dir(jout);
+
+    alert(JSON.stringify(jout));
+
+}
+    </script>
+  
+<div class="vimiumReset vimiumHUD" style="right: 150px; opacity: 0; display: none;"></div>
+<!-- <script src="jquery-1.9.0.min.js"></script>http://code.jquery.com/jquery-1.9.1.min.js -->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#loadProfile').bind('click', function(){
+            // console.log('clicked');
+            // console.log($('#profileurl').val());
+            // $('#iframe').attr('src', $('#profileurl').val());
+            window.open($('#profileurl').val());
+
+        });
+        $('#parseProfile').bind('click', function(){
+            parse();
+        });
+    });
+
+
+    function afterParsing(results){
+        // console.log('results:');
+        // console.dir(results);
+    }
+
+    function parse(){
+        jout = JSON.parse($('#jsonOut').val());
+        var hout='';
+        // alert(jout.fullName);
+        hout += '<img src="'+jout.profileImg+'" height="100px" width="100px" style="float:right; padding-right:5em;" />';
+        hout += 'Full name: <strong>'+jout.fullName+'</strong><br />';
+        hout += 'Current Position: <strong>'+jout.currentPos+'</strong><br />';
+        hout += 'locality: <strong>'+jout.locality+'</strong><br />';
+
+        hout += '<br /><strong>Job History</strong><ol>';
+
+        // $('#parsedData').html(hout);
+
+        jhis = '';
+
+        for (var i = 0, n = jout.jobhistory.length; i < n; i++) {
+            jhis += '<li><p>Title: '+jout.jobhistory[i].title+' <br />Org: '+jout.jobhistory[i].org+'<br />Duration: '+jout.jobhistory[i].dtstart+' - '+jout.jobhistory[i].dtend+'</p></li>';
+            // alert(jhis);
+        };
+        
+        hout += jhis + '</ol>';
+
+        hout += '<br /><strong>Memberships</strong><ol>';
+
+        grps = '';
+        for (var i = 0, n = jout.groups.length; i < n; i++) {
+            grps += '<li><p>'+jout.groups[i].name+'  - <a href="http://www.linkedin.com'+jout.groups[i].url+'"> link </a></p></li>';
+            // alert(jhis);
+        };
+        
+        hout += grps + '</ol>';
+
+        $('#parsedData').html(hout);
+    }
+    </script>
+</body></html>
