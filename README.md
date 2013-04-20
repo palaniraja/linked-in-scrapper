@@ -1,7 +1,15 @@
 linked-in-scrapper
 ==================
 
-All I wanted was their following api to return the values as documented. After so much frustration, I wrote this to scrap the same public info with jquery.
+###Demo
+
+[Click here](http://htmlpreview.github.io/?https://github.com/palaniraja/linked-in-scrapper/blob/master/index.html) to see the demo. 
+
+Note: You need to be signed out of LinkedIn. 
+
+###Why?
+
+All I wanted was their following api to return the values as documented. After so much of frustration, I wrote this to scrap the same public info with jquery.
 
       IN.API.Profile("http://www.linkedin.com/in/aprofileurl")
       .fields("firstName", "lastName", "picture-url", "industry","headline","skills",
