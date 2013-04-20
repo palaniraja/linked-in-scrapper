@@ -17,3 +17,8 @@ All I wanted was their following api to return the values as documented. After s
       "group-memberships")
       .result(doMyThing)
       .error(logErrors);
+
+
+###Credits
+
+Thanks to [learningjquery](http://www.learningjquery.com/2009/04/better-stronger-safer-jquerify-bookmarklet)for _Step 1: jQuerify_ bookmarklet
